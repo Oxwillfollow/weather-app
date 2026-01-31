@@ -1,14 +1,14 @@
 {
-  "name": "webpack-template",
+  "name": "weather-app",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/Oxwillfollow/webpack-template#readme",
+  "homepage": "https://github.com/Oxwillfollow/weather-app#readme",
   "bugs": {
-    "url": "https://github.com/Oxwillfollow/webpack-template/issues"
+    "url": "https://github.com/Oxwillfollow/weather-app/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Oxwillfollow/webpack-template.git"
+    "url": "git+https://github.com/Oxwillfollow/weather-app.git"
   },
   "license": "ISC",
   "author": "",

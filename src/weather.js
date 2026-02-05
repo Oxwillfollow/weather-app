@@ -4,7 +4,9 @@ import imgPartlyCloudyDay from "./images/weather-partly-cloudy.svg";
 import imgPartlyCloudyNight from "./images/weather-night-partly-cloudy.svg";
 import imgCloudy from "./images/weather-cloudy.svg";
 import imgRainy from "./images/weather-rainy.svg";
+import imgSnowy from "./images/weather-snowy.svg";
 import imgSearch from "./images/magnify.svg";
+import imgRefresh from "./images/refresh.svg";
 
 const API_KEY = "WZB9B9LMLQWNKL6KHUA54M3GS";
 
@@ -15,7 +17,6 @@ const cacheDOM = function () {
   const dataTemp = document.querySelector(".data-temp");
   const dataDatetime = document.querySelector(".data-datetime");
   const dataLocation = document.querySelector(".data-location");
-  const dataConditions = document.querySelector(".data-conditions");
   const dataIcon = document.querySelector(".data-icon");
 
   return {
@@ -25,12 +26,12 @@ const cacheDOM = function () {
     dataTemp,
     dataDatetime,
     dataLocation,
-    dataConditions,
     dataIcon,
   };
 };
 
 let myDOM = {};
+let myClock = undefined;
 
 export function initDOM() {
   myDOM = cacheDOM();
@@ -43,41 +44,61 @@ export function initDOM() {
 }
 
 function fetchAndDisplayData(e) {
-  e.preventDefault();
+  if (e !== undefined) e.preventDefault();
   const input = myDOM.searchbar.value;
   myDOM.searchbar.value = "";
 
   fetchData(getUrlByLocation(input)).then(function (data) {
     if (data === null || data === undefined) return;
     const location = data.resolvedAddress;
-    const localTime = new Date().toLocaleString(undefined, {
-      timeZone: data.timezone,
-      hour12: false,
-    });
     console.log(data);
-    const measuredAtTime = data.currentConditions.datetime.slice(0, -3);
-    const conditions = data.currentConditions.conditions;
     const tempF = data.currentConditions.temp.toFixed(0);
     const tempC = ((tempF - 32) / 1.8).toFixed(0);
 
     myDOM.dataTemp.textContent = `${tempC}° C`;
     myDOM.dataLocation.textContent = location.toUpperCase();
-    myDOM.dataDatetime.textContent = `${localTime} (Last measured at ${measuredAtTime})`;
-    myDOM.dataConditions.textContent = conditions;
     myDOM.dataIcon.src = getWeatherIcon(data.currentConditions.icon);
     myDOM.dataIcon.style.width = "64px";
+
+    updateTime(data.currentConditions.timezone);
+
+    if (myClock !== undefined) clearInterval(myClock);
+
+    myClock = setInterval(() => {
+      updateTime(data.currentConditions.timezone);
+    }, 1000);
+
+    // Add a refresh button for user to update the weather data
+    if (myDOM.refreshBtn) {
+      myDOM.refreshBtn.remove();
+      myDOM.refreshBtn = undefined;
+    }
+
+    const refreshBtn = document.createElement("button");
+    const refreshIcon = document.createElement("img");
+    refreshIcon.src = imgRefresh;
+    refreshIcon.style.width = "32px";
+    refreshBtn.append(refreshIcon);
+    refreshBtn.addEventListener("click", () => {
+      myDOM.searchbar.value = input;
+      fetchAndDisplayData(undefined);
+    });
+    myDOM.refreshBtn = refreshBtn;
+    myDOM.dataDatetime.parentNode.appendChild(refreshBtn);
   });
 }
 
 function getWeatherIcon(iconName) {
   // API icon name list:
-  //"icon": ["partly-cloudy-day", "rain", "clear-day", "clear-night", "partly-cloudy-night", "cloudy"]
+  //"icon": ["partly-cloudy-day", "rain", "snow", "clear-day", "clear-night", "partly-cloudy-night", "cloudy"]
 
   switch (iconName) {
     case "partly-cloudy-day":
       return imgPartlyCloudyDay;
     case "rain":
       return imgRainy;
+    case "snow":
+      return imgSnowy;
     case "clear-day":
       return imgDayClear;
     case "clear-night":
@@ -89,6 +110,22 @@ function getWeatherIcon(iconName) {
     default:
       return undefined;
   }
+}
+
+function updateTime(timezone) {
+  let now = new Date();
+  let weekday = now.toLocaleString(undefined, {
+    timeZone: timezone,
+    weekday: "long",
+  });
+  let time = now.toLocaleString(undefined, {
+    timeZone: timezone,
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+  myDOM.dataDatetime.textContent = `${weekday}, ${time}`;
 }
 
 const getUrlByLocation = function (location) {

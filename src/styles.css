@@ -1,6 +1,74 @@
 @import "../node_modules/modern-normalize/modern-normalize.css";
 
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#main {
+  padding: 32px;
+  flex-grow: 1;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+footer {
+  padding: 16px;
+  display: flex;
+  justify-content: center;
+  font-size: 14px;
+  gap: 8px;
+}
+
 .search-container {
   display: flex;
+  justify-content: center;
   gap: 8px;
+}
+
+.data-container {
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.data-conditions-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 1.5rem;
+}
+
+.data-location {
+  font-weight: 600;
+  font-size: 2.5rem;
+}
+
+img {
+  user-select: none;
+}
+
+button {
+  border: 0;
+  border-radius: 4px;
+  background-color: rgb(255, 255, 174);
+  box-shadow: 0 3px 1px black;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+button:active {
+  transform: translate(0, 2px);
+  box-shadow: 0 1px 1px black;
 }

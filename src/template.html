@@ -7,17 +7,19 @@
   </head>
   <body>
     <div id="main">
-      <form>
-        <label for="location-searchbar">*magnifying glass icon*</label>
-        <input type="text" id="searchbar" />
-        <button type="submit" id="btn-search">Go</button>
+      <form id="search-form">
+        <div class="search-container">
+          <label for="location-searchbar" id="label-searchbar"></label>
+          <input type="text" id="searchbar" />
+          <button type="submit" id="btn-search">Go</button>
+        </div>
       </form>
       <div class="data-container">
         <div class="data-location"></div>
         <div class="data-datetime"></div>
         <div class="data-temp"></div>
         <div class="data-conditions"></div>
-        <div class="data-icon"></div>
+        <img class="data-icon"></img>
       </div>
     </div>
     <footer>

@@ -18,6 +18,7 @@ const cacheDOM = function () {
   const dataDatetime = document.querySelector(".data-datetime");
   const dataLocation = document.querySelector(".data-location");
   const dataIcon = document.querySelector(".data-icon");
+  const dataUpdate = document.querySelector(".data-update-container");
 
   return {
     searchForm,
@@ -27,6 +28,7 @@ const cacheDOM = function () {
     dataDatetime,
     dataLocation,
     dataIcon,
+    dataUpdate,
   };
 };
 
@@ -37,7 +39,7 @@ export function initDOM() {
   myDOM = cacheDOM();
   const searchIcon = document.createElement("img");
   searchIcon.src = imgSearch;
-  searchIcon.style.width = "32px";
+  searchIcon.classList.add("search-icon");
   document.getElementById("label-searchbar").appendChild(searchIcon);
 
   myDOM.searchForm.addEventListener("submit", (e) => fetchAndDisplayData(e));
@@ -55,36 +57,37 @@ function fetchAndDisplayData(e) {
     const tempF = data.currentConditions.temp.toFixed(0);
     const tempC = ((tempF - 32) / 1.8).toFixed(0);
 
-    myDOM.dataTemp.textContent = `${tempC}° C`;
     myDOM.dataLocation.textContent = location.toUpperCase();
+    myDOM.dataTemp.textContent = `${tempC}° C`;
     myDOM.dataIcon.src = getWeatherIcon(data.currentConditions.icon);
     myDOM.dataIcon.style.width = "64px";
+    myDOM.dataUpdate.textContent = `Last updated: ${new Date().toLocaleString(undefined, { month: "numeric", day: "numeric", hour12: false, hour: "numeric", minute: "numeric", second: "numeric" })}`;
 
-    updateTime(data.currentConditions.timezone);
+    updateTime(data.timezone);
 
     if (myClock !== undefined) clearInterval(myClock);
 
     myClock = setInterval(() => {
-      updateTime(data.currentConditions.timezone);
+      updateTime(data.timezone);
     }, 1000);
 
     // Add a refresh button for user to update the weather data
-    if (myDOM.refreshBtn) {
+    if (myDOM.dataUpdate.refreshBtn) {
       myDOM.refreshBtn.remove();
-      myDOM.refreshBtn = undefined;
+      myDOM.dataUpdate.refreshBtn = undefined;
     }
 
     const refreshBtn = document.createElement("button");
     const refreshIcon = document.createElement("img");
     refreshIcon.src = imgRefresh;
-    refreshIcon.style.width = "32px";
+    refreshIcon.style.width = "28px";
     refreshBtn.append(refreshIcon);
     refreshBtn.addEventListener("click", () => {
       myDOM.searchbar.value = input;
       fetchAndDisplayData(undefined);
     });
     myDOM.refreshBtn = refreshBtn;
-    myDOM.dataDatetime.parentNode.appendChild(refreshBtn);
+    myDOM.dataUpdate.appendChild(refreshBtn);
   });
 }
 

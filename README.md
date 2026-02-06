@@ -1,7 +1,6 @@
-# TEMPLATE - how to setup project:
+to do:
 
-1. Edit package.json: name, urls
-2. npm install
+- Add a questionmark icon next to refresh button. Hover over it to see when was the last time it updated ("last update: 5m 16s ago")
 
 # Project Title
 

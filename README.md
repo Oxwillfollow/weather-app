@@ -1,25 +1,12 @@
-to do:
+# Weather App
 
-- Add a questionmark icon next to refresh button. Hover over it to see when was the last time it updated ("last update: 5m 16s ago")
-
-# Project Title
-
-One Paragraph of the project description
+https://oxwillfollow.github.io/weather-app/
 
 ## Description
 
-These instructions will give you a copy of the project up and running on
-your local machine for development and testing purposes. See deployment
-for notes on deploying the project on a live system.
+A live weather app made with Javascript and Visual Crossing weather API.
 
 ## Built With
 
-- [Contributor Covenant](https://www.contributor-covenant.org/) - Used
-  for the Code of Conduct
-- [Creative Commons](https://creativecommons.org/) - Used to choose
-  the license
-
-## Acknowledgments
-
-- Inspiration
-- etc
+Visual Crossing weather API:
+https://www.visualcrossing.com/weather-api/

@@ -30,11 +30,6 @@ body {
   align-items: center;
 }
 
-h1 {
-  font-size: 1.5rem;
-  font-weight: 300;
-}
-
 footer {
   padding: 16px;
   display: flex;
